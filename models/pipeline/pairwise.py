@@ -58,7 +58,7 @@ def main():
     df_valid = pd.read_csv('data/valid_data.csv')
     df_test = pd.read_csv('data/test_data.csv')
 
-    feature_cols = list(df_train.columns[:-1])
+    feature_cols = [f for f in list(df_train) if "feature" in f]
     target_col = df_train.columns[-1]
 
     X_train = df_train[feature_cols].values
@@ -69,61 +69,51 @@ def main():
 
     X_test = df_test[feature_cols].values
 
-    tsne_data_2d_5p = np.load('data/tsne_2d_5p.npz')
     tsne_data_2d_10p = np.load('data/tsne_2d_10p.npz')
     tsne_data_2d_15p = np.load('data/tsne_2d_15p.npz')
     tsne_data_2d_20p = np.load('data/tsne_2d_20p.npz')
     tsne_data_2d_30p = np.load('data/tsne_2d_30p.npz')
     tsne_data_2d_40p = np.load('data/tsne_2d_40p.npz')
     tsne_data_2d_50p = np.load('data/tsne_2d_50p.npz')
-    tsne_data_3d_30p = np.load('data/tsne_3d_30p.npz')
 
     # concat features
     X_train_concat = {
         'X': X_train,
-        'tsne_2d_5p': tsne_data_2d_5p['train'],
         'tsne_2d_10p': tsne_data_2d_10p['train'],
         'tsne_2d_15p': tsne_data_2d_15p['train'],
         'tsne_2d_20p': tsne_data_2d_20p['train'],
         'tsne_2d_30p': tsne_data_2d_30p['train'],
         'tsne_2d_40p': tsne_data_2d_40p['train'],
         'tsne_2d_50p': tsne_data_2d_50p['train'],
-        'tsne_3d_30p': tsne_data_3d_30p['train'],
     }
     X_valid_concat = {
         'X': X_valid,
-        'tsne_2d_5p': tsne_data_2d_5p['valid'],
         'tsne_2d_10p': tsne_data_2d_10p['valid'],
         'tsne_2d_15p': tsne_data_2d_15p['valid'],
         'tsne_2d_20p': tsne_data_2d_20p['valid'],
         'tsne_2d_30p': tsne_data_2d_30p['valid'],
         'tsne_2d_40p': tsne_data_2d_40p['valid'],
         'tsne_2d_50p': tsne_data_2d_50p['valid'],
-        'tsne_3d_30p': tsne_data_3d_30p['valid'],
     }
     X_test_concat = {
         'X': X_test,
-        'tsne_2d_5p': tsne_data_2d_5p['test'],
         'tsne_2d_10p': tsne_data_2d_10p['test'],
         'tsne_2d_15p': tsne_data_2d_15p['test'],
         'tsne_2d_20p': tsne_data_2d_20p['test'],
         'tsne_2d_30p': tsne_data_2d_30p['test'],
         'tsne_2d_40p': tsne_data_2d_40p['test'],
         'tsne_2d_50p': tsne_data_2d_50p['test'],
-        'tsne_3d_30p': tsne_data_3d_30p['test'],
     }
 
     pipeline = Pipeline(steps=[
         ('features', FeatureUnion(transformer_list=[
             ('X', ItemSelector('X')),
-            ('tsne_2d_5p', ItemSelector('tsne_2d_5p')),
             ('tsne_2d_10p', ItemSelector('tsne_2d_10p')),
             ('tsne_2d_15p', ItemSelector('tsne_2d_15p')),
             ('tsne_2d_20p', ItemSelector('tsne_2d_20p')),
             ('tsne_2d_30p', ItemSelector('tsne_2d_30p')),
             ('tsne_2d_40p', ItemSelector('tsne_2d_40p')),
             ('tsne_2d_50p', ItemSelector('tsne_2d_50p')),
-            ('tsne_3d_30p', ItemSelector('tsne_3d_30p')),
         ])),
         ('poly', PolynomialFeatures(degree=2)),
         ('scaler', MinMaxScaler()),
@@ -174,11 +164,11 @@ def main():
     p_test = np.mean(p_test, axis=0)
 
     df_pred = pd.DataFrame({
-        't_id': df_test['t_id'],
+        'id': df_test['id'],
         'probability': p_test[:,1]
     })
     csv_path = 'predictions/predictions_{}_{}.csv'.format(int(time.time()), loss)
-    df_pred.to_csv(csv_path, columns=('t_id', 'probability'), index=None)
+    df_pred.to_csv(csv_path, columns=('id', 'probability'), index=None)
     print('Saved: {}'.format(csv_path))
 
 if __name__ == '__main__':

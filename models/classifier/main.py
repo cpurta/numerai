@@ -42,11 +42,8 @@ def main(_):
 
     X_test = df_test[feature_cols].values
 
-    tsne_data_5 = np.load('data/tsne_2d_5p_poly.npz')
-    tsne_data_15 = np.load('data/tsne_2d_15p_poly.npz')
     tsne_data_10 = np.load('data/tsne_2d_10p_poly.npz')
     tsne_data_20 = np.load('data/tsne_2d_20p_poly.npz')
-    tsne_data_30 = np.load('data/tsne_2d_30p_poly.npz')
     tsne_data_40 = np.load('data/tsne_2d_40p_poly.npz')
     tsne_data_50 = np.load('data/tsne_2d_50p_poly.npz')
 
@@ -147,11 +144,11 @@ def main(_):
             features: X_test_concat,
         })
         df_pred = pd.DataFrame({
-            't_id': df_test['t_id'],
+            'id': df_test['id'],
             'probability': p_test[:,1]
         })
         csv_path = 'predictions/predictions_{}_{}.csv'.format(int(time.time()), loss)
-        df_pred.to_csv(csv_path, columns=('t_id', 'probability'), index=None)
+        df_pred.to_csv(csv_path, columns=('id', 'probability'), index=None)
         print('Saved: {}'.format(csv_path))
 
 if __name__ == "__main__":

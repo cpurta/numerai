@@ -20,7 +20,7 @@ def save_tsne(perplexity, dimensions=2, polynomial=False):
     df_valid = pd.read_csv('data/valid_data.csv')
     df_test = pd.read_csv('data/test_data.csv')
 
-    feature_cols = list(df_train.columns[:-1])
+    feature_cols = [f for f in list(df_train) if "feature" in f]
     target_col = df_train.columns[-1]
 
     X_train = df_train[feature_cols].values
@@ -63,8 +63,8 @@ def save_tsne(perplexity, dimensions=2, polynomial=False):
     print('Saved: {}'.format(save_path))
 
 def main():
-    for perplexity in [10, 20, 40, 50]:
-        save_tsne(perplexity, polynomial=True)
+    for perplexity in [10, 15, 20, 30, 40, 50]:
+        save_tsne(perplexity, polynomial=False)
 
 if __name__ == '__main__':
     main()

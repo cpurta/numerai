@@ -79,7 +79,7 @@ def main():
         ])),
         ('poly', PolynomialFeatures(degree=2)),
         ('scaler', MinMaxScaler()),
-        ('lr', LogisticRegression(penalty='l2', C=1e-2, n_jobs=-1)),
+        ('gbt', GradientBoostingClassifier()),
     ])
 
     print('Fitting...')
