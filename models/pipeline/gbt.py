@@ -79,7 +79,7 @@ def main():
         ])),
         ('poly', PolynomialFeatures(degree=2)),
         ('scaler', MinMaxScaler()),
-        ('gbt', GradientBoostingClassifier()),
+        ('gbt', GradientBoostingClassifier(learning_rate=0.001)),
     ])
 
     print('Fitting...')

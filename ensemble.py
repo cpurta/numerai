@@ -6,22 +6,19 @@ import time
 import numpy as np
 import pandas as pd
 
-paths = [
-    'predictions/predictions_1500400687_0.693150778975.csv',
-    'predictions/predictions_1500400931_0.692735149191.csv',
-    'predictions/predictions_1500401397_0.692893209636.csv',
-    'predictions/predictions_1500405562_0.693071552363.csv'
-]
+import os
+
+preds = os.listdir('predictions')
 
 def main():
     ids = []
     probs = []
-    for path in paths:
-        df = pd.read_csv(path)
+    for p in preds:
+        df = pd.read_csv(f)
         ids = df['id'].values
         probs.append(df['probability'].values)
 
-    probability = np.power(np.prod(probs, axis=0), 1.0 / len(paths))
+    probability = np.power(np.prod(probs, axis=0), 1.0 / len(preds))
     assert(len(probability) == len(ids))
 
     df_pred = pd.DataFrame({

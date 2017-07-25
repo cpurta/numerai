@@ -42,6 +42,7 @@ def main():
 
     tsne_data_10p = np.load('data/tsne_2d_10p_poly.npz')
     tsne_data_20p = np.load('data/tsne_2d_20p_poly.npz')
+    tsne_data_30p = np.load('data/tsne_2d_30p_poly.npz')
     tsne_data_40p = np.load('data/tsne_2d_40p_poly.npz')
     tsne_data_50p = np.load('data/tsne_2d_50p_poly.npz')
 
@@ -50,6 +51,7 @@ def main():
         'X': X_train,
         'tsne_10p': tsne_data_10p['train'],
         'tsne_20p': tsne_data_20p['train'],
+        'tsne_30p': tsne_data_30p['train'],
         'tsne_40p': tsne_data_40p['train'],
         'tsne_50p': tsne_data_50p['train'],
     }
@@ -57,6 +59,7 @@ def main():
         'X': X_valid,
         'tsne_10p': tsne_data_10p['valid'],
         'tsne_20p': tsne_data_20p['valid'],
+        'tsne_30p': tsne_data_30p['valid'],
         'tsne_40p': tsne_data_40p['valid'],
         'tsne_50p': tsne_data_50p['valid'],
     }
@@ -64,6 +67,7 @@ def main():
         'X': X_test,
         'tsne_10p': tsne_data_10p['test'],
         'tsne_20p': tsne_data_20p['test'],
+        'tsne_30p': tsne_data_30p['test'],
         'tsne_40p': tsne_data_40p['test'],
         'tsne_50p': tsne_data_50p['test'],
     }
@@ -73,6 +77,7 @@ def main():
         ('features', FeatureUnion(transformer_list=[
             ('tsne_10p', ItemSelector('tsne_10p')),
             ('tsne_20p', ItemSelector('tsne_20p')),
+            ('tsne_30p', ItemSelector('tsne_30p')),
             ('tsne_40p', ItemSelector('tsne_40p')),
             ('tsne_50p', ItemSelector('tsne_50p')),
             ('X', ItemSelector('X')),

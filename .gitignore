@@ -5,6 +5,7 @@
 logs/
 *.pyc
 *.csv
+*.tsv
 *.npy
 *.npz
 *.pkl
